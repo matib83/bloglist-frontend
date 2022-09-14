@@ -3,6 +3,8 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import LoginForm from './components/LoginForm'
+import CreateBlogForm from './components/CreateBlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -59,7 +61,7 @@ const App = () => {
     }
   }
   
-  const HandleLogin = async (event) => {
+  const handLeLogin = async (event) => {
     event.preventDefault()
     try {
       // console.log('logging in with', username, password)
@@ -86,69 +88,11 @@ const App = () => {
     }
   }
 
-  const renderLoginForm = () => (
-    <form onSubmit={HandleLogin}>
-      <div> 
-        <input
-          type='text'
-          value={username}
-          name='Username'
-          placeholder='Username'
-          onChange={({target}) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        <input
-          type='password'
-          value={password}
-          name='Password'
-          placeholder='Password'
-          onChange={({target}) => setPassword(target.value)}
-        />
-      </div>
-      <button>
-        Login
-      </button>
-    </form>  
-  )
-
-  const handleLogout = () => {
+   const handleLogout = () => {
     setUser(null) // Elimino el token almacenado en la variable de estado
     blogService.setToken(user.token)  // Elimino el token almacenado en la variable del modulo de blogService
     window.localStorage.removeItem('loggedBlogAppUser') // Elimino el token almacenado en localStorage
   }
-
-  const renderCreateBlogForm = () => (
-    <>
-      <form onSubmit={addBlog}>
-      <div>  
-      title: 
-        <input
-          placeholder='Title'
-          value={title}
-          onChange={({target}) => setTitle(target.value)}
-        />
-      </div>
-      <div>
-        author: 
-        <input
-          placeholder='Author'
-          value={author}
-          onChange={({target}) => setAuthor(target.value)}
-        />
-      </div>
-      <div>
-        url: 
-        <input
-          placeholder='Url'
-          value={url}
-          onChange={({target}) => setUrl(target.value)}
-        />
-      </div>
-      <button type="submit">create</button>
-      </form> 
-    </>
-  )
 
   return (
     <div>
@@ -158,7 +102,13 @@ const App = () => {
           <div>
             <h1>Log in to application</h1> 
             <Notification message={errorMessage} selector={'Error'} />
-            {renderLoginForm()}
+            <LoginForm
+                handLeLogin={handLeLogin}
+                username={username}
+                setUsername={setUsername}
+                password={password}
+                setPassword={setPassword}
+            />
           </div>
         : 
         <div>
@@ -168,8 +118,12 @@ const App = () => {
           <p>
             {user.name} logged in <button onClick={handleLogout}>Cerrar sesión </button>
           </p>
-          <h2>create new</h2>
-          {renderCreateBlogForm()}
+          <CreateBlogForm
+            addBlog={addBlog}
+            title={title} setTitle={setTitle}
+            author={author} setAuthor={setAuthor}
+            url={url} setUrl={setUrl}
+          />
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
         </div>
       }
