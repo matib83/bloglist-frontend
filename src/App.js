@@ -23,6 +23,17 @@ const App = () => {
     )  
   }, [])
 
+  // Hook que se ejecuta cuando se renderiza el componente App, si hay datos 
+  // en local Storage, los recupero
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
   const addBlog = async (event) => {
     event.preventDefault()
     try {
@@ -51,6 +62,12 @@ const App = () => {
     try {
       // console.log('logging in with', username, password)
       const user = await loginService.login({ username, password })
+
+      //Almaceno usuario en el local Srorage
+      window.localStorage.setItem(
+        'loggedBlogAppUser', JSON.stringify(user)
+      )
+
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -89,6 +106,12 @@ const App = () => {
     </form>  
   )
 
+  const handleLogout = () => {
+    setUser(null) // Elimino el token almacenado en la variable de estado
+    blogService.setToken(user.token)  // Elimino el token almacenado en la variable del modulo de blogService
+    window.localStorage.removeItem('loggedBlogAppUser') // Elimino el token almacenado en localStorage
+  }
+
   const renderCreateBlogForm = () => (
     <>
       <form onSubmit={addBlog}>
@@ -115,6 +138,11 @@ const App = () => {
       />
       <button type="submit">save</button>
       </form>
+      <div>
+      <button onClick={handleLogout}>
+        Cerrar sesión
+      </button>
+    </div> 
     </>
   )
 
@@ -133,12 +161,8 @@ const App = () => {
         <div>
           <h1>Blogs</h1>
           <p>{user.name} logged in</p>
-          <p>
-            {renderCreateBlogForm()}
-          </p>
-          <div>
-            {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
-          </div>
+          <ul> {renderCreateBlogForm()} </ul>
+          {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
         </div>
       }
     </div>
