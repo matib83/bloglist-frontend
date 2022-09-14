@@ -13,6 +13,7 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [succeedMessage, setsucceedMessage] = useState(null)
+  const [createBlogFormVisible, setCreateBlogFormVisible] = useState(false)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -53,6 +54,7 @@ const App = () => {
       setTimeout(() => {
         setsucceedMessage(null) 
       }, 5000)
+      setCreateBlogFormVisible(false)
     } catch({response}) {
       setErrorMessage('Error to insert a new blog: '+response.data.error)
       setTimeout(() => {
@@ -112,18 +114,25 @@ const App = () => {
           </div>
         : 
         <div>
-          <h1>Blogs</h1>
+          <h1>blogs</h1>
           <Notification message={succeedMessage} selector={'Success'} />
           <Notification message={errorMessage} selector={'Error'} />
           <p>
             {user.name} logged in <button onClick={handleLogout}>Cerrar sesión </button>
           </p>
-          <CreateBlogForm
-            addBlog={addBlog}
-            title={title} setTitle={setTitle}
-            author={author} setAuthor={setAuthor}
-            url={url} setUrl={setUrl}
-          />
+          {createBlogFormVisible ? 
+            <>
+              <CreateBlogForm
+                addBlog={addBlog}
+                title={title} setTitle={setTitle}
+                author={author} setAuthor={setAuthor}
+                url={url} setUrl={setUrl}
+              />
+              <button onClick={() => setCreateBlogFormVisible(false)}>cancel</button>
+            </>
+          : 
+            <button onClick={() => setCreateBlogFormVisible(true)}>new note</button>
+          }
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
         </div>
       }
