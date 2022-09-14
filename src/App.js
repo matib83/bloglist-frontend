@@ -10,6 +10,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [succeedMessage, setsucceedMessage] = useState(null)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -46,6 +47,10 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      setsucceedMessage(`a new blog "${blogObject.title}" by ${blogObject.author} added`)
+      setTimeout(() => {
+        setsucceedMessage(null) 
+      }, 5000)
     } catch({response}) {
       setErrorMessage('Error to insert a new blog: '+response.data.error)
       setTimeout(() => {
@@ -69,11 +74,15 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
+      setsucceedMessage(`welcome ${user.name}`)
+      setTimeout(() => {
+        setsucceedMessage(null)
+      }, 1000)
     } catch(error) {
       setErrorMessage('Wrong credentials')
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000)
+      }, 3000)
     }
   }
 
@@ -143,18 +152,19 @@ const App = () => {
 
   return (
     <div>
-      <Notification message={errorMessage} />
-
       {
         user === null
         ?
           <div>
             <h1>Log in to application</h1> 
+            <Notification message={errorMessage} selector={'Error'} />
             {renderLoginForm()}
           </div>
         : 
         <div>
           <h1>Blogs</h1>
+          <Notification message={succeedMessage} selector={'Success'} />
+          <Notification message={errorMessage} selector={'Error'} />
           <p>
             {user.name} logged in <button onClick={handleLogout}>Cerrar sesión </button>
           </p>
