@@ -5,6 +5,7 @@ import loginService from './services/login'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import CreateBlogForm from './components/CreateBlogForm'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -98,6 +99,10 @@ const App = () => {
 
   return (
     <div>
+      <Togglable buttonLabel="reveal">
+        <p>This line is at start hidden</p>
+        <p>also this is hidden</p>
+      </Togglable>
       {
         user === null
         ?
