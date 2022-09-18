@@ -99,10 +99,6 @@ const App = () => {
 
   return (
     <div>
-      <Togglable buttonLabel="reveal">
-        <p>This line is at start hidden</p>
-        <p>also this is hidden</p>
-      </Togglable>
       {
         user === null
         ?
@@ -125,19 +121,14 @@ const App = () => {
           <p>
             {user.name} logged in <button onClick={handleLogout}>Cerrar sesión </button>
           </p>
-          {createBlogFormVisible ? 
-            <>
+            <Togglable buttonLabel="new note">
               <CreateBlogForm
                 addBlog={addBlog}
                 title={title} setTitle={setTitle}
                 author={author} setAuthor={setAuthor}
                 url={url} setUrl={setUrl}
               />
-              <button onClick={() => setCreateBlogFormVisible(false)}>cancel</button>
-            </>
-          : 
-            <button onClick={() => setCreateBlogFormVisible(true)}>new note</button>
-          }
+            </Togglable>
           {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
         </div>
       }
