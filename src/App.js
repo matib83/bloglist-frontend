@@ -14,7 +14,6 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [succeedMessage, setsucceedMessage] = useState(null)
-  const [createBlogFormVisible, setCreateBlogFormVisible] = useState(false)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -55,7 +54,6 @@ const App = () => {
       setTimeout(() => {
         setsucceedMessage(null) 
       }, 5000)
-      setCreateBlogFormVisible(false)
     } catch({response}) {
       setErrorMessage('Error to insert a new blog: '+response.data.error)
       setTimeout(() => {
@@ -97,6 +95,8 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogAppUser') // Elimino el token almacenado en localStorage
   }
 
+  // console.log(blogs)
+
   return (
     <div>
       {
@@ -121,7 +121,7 @@ const App = () => {
           <p>
             {user.name} logged in <button onClick={handleLogout}>Cerrar sesión </button>
           </p>
-            <Togglable buttonLabel="new note">
+            <Togglable buttonLabel="create new blog">
               <CreateBlogForm
                 addBlog={addBlog}
                 title={title} setTitle={setTitle}
@@ -129,7 +129,8 @@ const App = () => {
                 url={url} setUrl={setUrl}
               />
             </Togglable>
-          {blogs.map(blog => <Blog key={blog.id} blog={blog} />)}
+
+          { blogs.map(blog => <Blog key={blog.id} title={blog.title} author={blog.author} url={blog.url} likes={blog.likes} username={blog.user.username}/>) }
         </div>
       }
     </div>
