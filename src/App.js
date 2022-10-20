@@ -95,7 +95,7 @@ const App = () => {
     window.localStorage.removeItem('loggedBlogAppUser') // Elimino el token almacenado en localStorage
   }
 
-  // console.log(blogs)
+  console.log(blogs)
 
   return (
     <div>
@@ -130,7 +130,7 @@ const App = () => {
               />
             </Togglable>
 
-          { blogs.map(blog => <Blog key={blog.id} title={blog.title} author={blog.author} url={blog.url} likes={blog.likes} username={blog.user.username}/>) }
+          { blogs.map(blog => <Blog key={blog.id} idBlog={blog.id} title={blog.title} author={blog.author} url={blog.url} likes={blog.likes} username={blog.user.username} setBlogs={setBlogs}/>) }
         </div>
       }
     </div>

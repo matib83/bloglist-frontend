@@ -1,7 +1,7 @@
 import axios from 'axios'
 const baseUrl = '/api/blogs'
 
-// Segun entiendo, cada vez que llame a este modulo, la variable token contiene las credenciales para
+// Cada vez que llame a este modulo, la variable token contiene las credenciales para
 // realizar el create y el update de datos mediante el token
 let token = null
 
@@ -9,10 +9,10 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
+const getAll = async () => {
+  const request = await axios.get(baseUrl)
   console.log(request)
-  return request.then(response => response.data)
+  return request.data
 }
 
 const create = async newObject => {
@@ -26,8 +26,8 @@ const create = async newObject => {
 }
 
 const update = async (id, newObject) => {
-  const request = await axios.put(`${ baseUrl } /${id}`, newObject)
-  return request.then(response => response.data)
+  const request = await axios.put(`${ baseUrl }/${id}`, newObject)
+  return request.data
 }
 
 // eslint-disable-next-line import/no-anonymous-default-export
