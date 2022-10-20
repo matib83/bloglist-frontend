@@ -30,5 +30,15 @@ const update = async (id, newObject) => {
   return request.data
 }
 
+const deleteBlog = async id => {
+  // Este config es de Axios, para poder mandar el token en el HEADER de la petición
+  const config = {
+    headers: { Authorization: token }
+  }
+
+  const request = await axios.delete(`${ baseUrl }/${id}`, config)
+  return request.data
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, create, update, setToken }
+export default { getAll, create, update, deleteBlog, setToken }

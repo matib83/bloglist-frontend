@@ -147,7 +147,7 @@ const App = () => {
               />
             </Togglable>
 
-          { blogs.map(blog => <Blog key={blog.id} idBlog={blog.id} title={blog.title} author={blog.author} url={blog.url} likes={blog.likes} username={blog.user.username} setBlogs={setBlogs}/>) }
+          { blogs.map(blog => <Blog key={blog.id} idBlog={blog.id} title={blog.title} author={blog.author} url={blog.url} likes={blog.likes} username={blog.user.username} setBlogs={setBlogs} user={user.username}/>) }
         </div>
       }
     </div>
