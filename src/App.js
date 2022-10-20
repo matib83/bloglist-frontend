@@ -97,6 +97,23 @@ const App = () => {
 
   console.log(blogs)
 
+  // sort by title
+  blogs.sort((a, b) => {
+  const titleA = a.title.toUpperCase(); // ignore upper and lowercase
+  const titleB = b.title.toUpperCase(); // ignore upper and lowercase
+  if (titleA < titleB) {
+    return -1
+  }
+  if (titleA > titleB) {
+    return 1
+  }
+  // names must be equal
+  return 0
+  })
+
+// sort by likes
+  blogs.sort((a, b) => a.likes - b.likes)
+
   return (
     <div>
       {
